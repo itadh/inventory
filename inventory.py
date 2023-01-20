@@ -26,29 +26,45 @@ import lib.inventory as inv
 os.system('clear')
 
 # global variables
-hosts = list()
 file = 'netdevices.list'
 csv_file = 'netdevices.csv'
+hosts = inv.read_data(csv_file, list())
 
 # main
 while True:
-    print('[q] quit: ')
-    print('[l] Auflisten aller Hosts: ')
-    print('[i] Dateneingabe: ')
-    print('[s] speichern in Datei: ')
-    print('[e] export nach CSV: ')
-
+    print('-' * 60)
+    print('')
+    print('   [q] quit: ')
+    print('   [l] Auflisten aller Hosts: ')
+    print('   [i] Dateneingabe: ')
+    print('   [b] Datensatz bearbeiten: ')
+    print('   [d] Daten löschen: ')
+    print('   [r] Daten einlesen: ')
+    print('   [a] eingelese Daten anhängen: ')
+    print('   [s] speichern in Datei: ')
+    print('')
+    print('-' * 60)
     action = input('Was wollen Sie machen: ')
 
+    os.system('clear')
     if action == 'q':
-        exit(0)
-    if action == 'i':
-        os.system('clear')
+        break
+    elif action == 'i':
         hosts = inv.gather_data(hosts)
-    if action == 's':
-        hosts = inv.save_to_file(file, hosts)
-    if action == 'e':
-        hosts = inv.save_to_file_as_csv(csv_file, hosts)
-    if action == 'l':
-        os.system('clear')
+    elif action == 's':
+        inv.save_to_file_as_csv(csv_file, hosts)
+    elif action == 'b':
+        inv.edit_data(hosts)
+    elif action == 'd':
+        inv.remove_data(hosts)
+    elif action == 'r':
+        # liest Datei ein und ueberschreibt hosts
+        hosts = inv.read_data(csv_file, hosts)
+    elif action == 'a':
+        # liest Datei ein und haengt die Daten an hosts an
+        hosts = inv.read_data(csv_file, hosts, True)
+    elif action == 'l':
         inv.list_hosts(hosts)
+
+os.system('clear')
+exit(0)
