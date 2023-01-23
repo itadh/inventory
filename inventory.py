@@ -28,6 +28,7 @@ os.system('clear')
 # global variables
 file = 'netdevices.list'
 csv_file = 'netdevices.csv'
+json_file = 'netdevices.json'
 hosts = inv.read_data(csv_file, list())
 
 # main
@@ -36,11 +37,13 @@ while True:
     print('')
     print('   [q] quit: ')
     print('   [l] Auflisten aller Hosts: ')
-    print('   [i] Dateneingabe: ')
+    print('   [e] Dateneingabe: ')
     print('   [b] Datensatz bearbeiten: ')
     print('   [d] Daten löschen: ')
     print('   [r] Daten einlesen: ')
     print('   [a] eingelese Daten anhängen: ')
+    print('   [i] JSON Import: ')
+    print('   [x] JSON Export: ')
     print('   [s] speichern in Datei: ')
     print('')
     print('-' * 60)
@@ -49,7 +52,7 @@ while True:
     os.system('clear')
     if action == 'q':
         break
-    elif action == 'i':
+    elif action == 'e':
         hosts = inv.gather_data(hosts)
     elif action == 's':
         inv.save_to_file_as_csv(csv_file, hosts)
@@ -63,6 +66,15 @@ while True:
     elif action == 'a':
         # liest Datei ein und haengt die Daten an hosts an
         hosts = inv.read_data(csv_file, hosts, True)
+    elif action == 'i':
+        # importiert JSON aus Dateiliest Datei ein und haengt die Daten an hosts an
+        hosts = inv.import_json(json_file, hosts, True)
+    elif action == 'I':
+        # importiert JSON aus Datei ein und ueberschreibt hosts
+        hosts = inv.import_json(json_file, hosts)
+    elif action == 'x':
+        # exportiert JSON in Datei
+        inv.export_json(json_file, hosts)
     elif action == 'l':
         inv.list_hosts(hosts)
 

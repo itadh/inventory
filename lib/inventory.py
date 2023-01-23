@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import os
+import json
 
 """
     Get all data from user input
@@ -51,6 +52,21 @@ def save_to_file_as_csv(file, hosts):
 def save_to_file(file, hosts):
     with open(file, 'a') as fh:
         fh.write(str(hosts))
+    return True
+
+
+"""
+    Export all netdevices to specific file.
+
+    @param:     file (str)          file to save data in
+    @param:     host (list)         networkdevices
+    @return     void (bool)
+"""
+def export_json(file, hosts):
+    # convert into JSON
+    data = json.dump(hosts)
+    with open(file, 'w') as fh:
+        fh.write(data)
     return True
 
 
@@ -131,4 +147,20 @@ def read_data(file, hosts, append=False):
         for line in fh.readlines():
             hostname, mac, ipv4 = line.split(',')
             hosts.append({'hostname': hostname, 'mac': mac, 'ipv4': ipv4[:-1]})
+    return hosts
+
+
+"""
+    Read data from json file
+
+    @param:     file                file ti read
+    @param:     hosts (list)        list of all networkdevices
+    @return     void (bool)
+"""
+def import_json(file, hosts, append=False):
+    if append is False:
+        hosts = list()
+    with open(file, 'r') as fh:
+        data = json.load(fh)
+    hosts = hosts + data
     return hosts
