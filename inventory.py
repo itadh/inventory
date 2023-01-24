@@ -29,10 +29,12 @@ os.system('clear')
 file = 'netdevices.list'
 csv_file = 'netdevices.csv'
 json_file = 'netdevices.json'
-hosts = inv.read_data(csv_file, list())
+# hosts = inv.read_data(csv_file, list())
+hosts = inv.import_json(json_file, list())
 
 # main
 while True:
+    os.system('clear')
     print('-' * 60)
     print('')
     print('   [q] quit: ')
@@ -49,34 +51,42 @@ while True:
     print('-' * 60)
     action = input('Was wollen Sie machen: ')
 
-    os.system('clear')
-    if action == 'q':
-        break
-    elif action == 'e':
-        hosts = inv.gather_data(hosts)
-    elif action == 's':
-        inv.save_to_file_as_csv(csv_file, hosts)
-    elif action == 'b':
-        inv.edit_data(hosts)
-    elif action == 'd':
-        inv.remove_data(hosts)
-    elif action == 'r':
-        # liest Datei ein und ueberschreibt hosts
-        hosts = inv.read_data(csv_file, hosts)
-    elif action == 'a':
-        # liest Datei ein und haengt die Daten an hosts an
-        hosts = inv.read_data(csv_file, hosts, True)
-    elif action == 'i':
-        # importiert JSON aus Dateiliest Datei ein und haengt die Daten an hosts an
-        hosts = inv.import_json(json_file, hosts, True)
-    elif action == 'I':
-        # importiert JSON aus Datei ein und ueberschreibt hosts
-        hosts = inv.import_json(json_file, hosts)
-    elif action == 'x':
-        # exportiert JSON in Datei
-        inv.export_json(json_file, hosts)
-    elif action == 'l':
-        inv.list_hosts(hosts)
+    try:
+        os.system('clear')
+        if action == 'q':
+            break
+        elif action == 'e':
+            hosts = inv.gather_data(hosts)
+        elif action == 's':
+            inv.save_to_file_as_csv(csv_file, hosts)
+        elif action == 'b':
+            inv.edit_data(hosts)
+        elif action == 'd':
+            inv.remove_data(hosts)
+        elif action == 'r':
+            # liest Datei ein und ueberschreibt hosts
+            hosts = inv.read_data(csv_file, hosts)
+        elif action == 'a':
+            # liest Datei ein und haengt die Daten an hosts an
+            hosts = inv.read_data(csv_file, hosts, True)
+        elif action == 'i':
+            # importiert JSON aus Dateiliest Datei ein und haengt die Daten an hosts an
+            hosts = inv.import_json(json_file, hosts, True)
+        elif action == 'I':
+            # importiert JSON aus Datei ein und ueberschreibt hosts
+            hosts = inv.import_json(json_file, hosts)
+        elif action == 'x':
+            # exportiert JSON in Datei
+            inv.export_json(json_file, hosts)
+        elif action == 'l':
+            inv.list_hosts(hosts)
+        else:
+            inv.generate_error('Ein neuer Fehler')
+    except Exception as e:
+        print('')
+        print(e)
+        print('Schwerer Fehler!!')
+        input('sehr sehr schwer \n\n')
 
 os.system('clear')
 exit(0)

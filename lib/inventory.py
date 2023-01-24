@@ -64,7 +64,7 @@ def save_to_file(file, hosts):
 """
 def export_json(file, hosts):
     # convert into JSON
-    data = json.dump(hosts)
+    data = json.dumps(hosts)
     with open(file, 'w') as fh:
         fh.write(data)
     return True
@@ -90,8 +90,7 @@ def list_hosts(hosts, view=True):
     print('')
     print('-' * 60)
     if view is True:
-        proceed = input('Weiter')
-    os.system('clear')
+        proceed = input('[Return] für Weiter ')
     return counter - 1
 
 
@@ -128,7 +127,7 @@ def edit_data(hosts):
 """
 def remove_data(hosts):
     list_hosts(hosts, view=False)
-    dataset = input('Welcher Datensatz soll bearbeitet werden: ')
+    dataset = input('Welcher Datensatz soll gelöscht werden: ')
     print(f'entferne Host{hosts[int(dataset)]}')
     del hosts[int(dataset)]
 
@@ -164,3 +163,12 @@ def import_json(file, hosts, append=False):
         data = json.load(fh)
     hosts = hosts + data
     return hosts
+
+
+"""
+    Error Test
+
+    @return     void (bool)
+"""
+def generate_error(message):
+    raise Exception(message)
