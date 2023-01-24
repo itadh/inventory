@@ -82,9 +82,8 @@ while True:
             inv.list_hosts(hosts)
         else:
             inv.generate_error('Ein neuer Fehler')
-    except Exception as e:
+    except Exception:
         print('')
-        print(e)
         print('Schwerer Fehler!!')
         input('sehr sehr schwer \n\n')
 
